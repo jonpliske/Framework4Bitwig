@@ -10,13 +10,13 @@ Scales.OFFSETS = [  0,   7,   2,   9,   4,   11,  5,   10,   3,    8,    1,    6
 
 Scales.DRUM_MATRIX =
 [
-    0,   1,  2,  3, -1, -1, -1, -1, 
-    4,   5,  6,  7, -1, -1, -1, -1, 
-    8,   9, 10, 11, -1, -1, -1, -1, 
-    12, 13, 14, 15, -1, -1, -1, -1, 
-    -1, -1, -1, -1, -1, -1, -1, -1, 
-    -1, -1, -1, -1, -1, -1, -1, -1, 
-    -1, -1, -1, -1, -1, -1, -1, -1, 
+    0,   1,  2,  3, -1, -1, -1, -1,
+    4,   5,  6,  7, -1, -1, -1, -1,
+    8,   9, 10, 11, -1, -1, -1, -1,
+    12, 13, 14, 15, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1, -1, -1, -1
 ];
 
@@ -217,18 +217,18 @@ Scales.prototype.getColor = function (noteMap, note)
         return PUSH_COLOR_BLACK;
     var n = (midiNote - Scales.OFFSETS[this.scaleOffset]) % 12;
     if (n == 0)
-        return PUSH_COLOR2_OCEAN_HI;
+        return MASCHINE_COLOR_SKY_BLUE_LO;
     if (this.isChromatic ())
     {
         var notes = Scales.INTERVALS[this.selectedScale].notes;
         for (var i = 0; i < notes.length; i++)
         {
             if (notes[i] == n)
-                return PUSH_COLOR2_WHITE;
+                return MASCHINE_COLOR_POWDER_BLUE_LO;
         }
         return PUSH_COLOR_BLACK;
     }
-    return PUSH_COLOR2_WHITE;
+    return MASCHINE_COLOR_POWDER_BLUE_LO;
 };
 
 Scales.prototype.getSequencerColor = function (noteMap, note)

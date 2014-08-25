@@ -43,16 +43,16 @@ AbstractMode.prototype.drawTrackNames = function ()
 {
     var tb = this.model.getTrackBank ();
     var selTrack = tb.getSelectedTrack ();
-    
-    // Format track names
-    var selIndex = selTrack == null ? -1 : selTrack.index;
-    var d = this.surface.getDisplay ();
-    for (var i = 0; i < 8; i++)
-    {
-        var isSel = i == selIndex;
-        var t = tb.getTrack (i);
-        var n = optimizeName (t.name, isSel ? 7 : 8);
-        d.setCell (3, i, isSel ? Display.RIGHT_ARROW + n : n, Display.FORMAT_RAW);
-    }
-    d.done (3);
+
+    // // Format track names
+    // var selIndex = selTrack == null ? -1 : selTrack.index;
+    // var d = this.surface.getDisplay ();
+    // for (var i = 0; i < 8; i++)
+    // {
+    //     var isSel = i == selIndex;
+    //     var t = tb.getTrack (i);
+    //     var n = optimizeName (t.name, isSel ? 7 : 8);
+    //     d.setCell (3, i, isSel ? Display.RIGHT_ARROW + n : n, Display.FORMAT_RAW);
+    // }
+    // d.done (3);
 };

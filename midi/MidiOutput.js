@@ -6,11 +6,28 @@
 function MidiOutput ()
 {
     this.port = host.getMidiOutPort (0);
+    this.queue = {};
+    this.lastSent = {};
 }
 
 MidiOutput.prototype.sendCC = function (cc, value)
 {
-    this.port.sendMidi (0xB0, cc, value);
+    var key = 'cc'+cc+1;
+
+    if (this.lastSent[key] !== value) {
+      this.port.sendMidi (0xB0, cc, value);
+      this.lastSent[key] = value;
+    }
+};
+
+MidiOutput.prototype.sendCCEx = function (channel, cc, value)
+{
+    var key = 'cc'+cc+channel;
+
+    if (this.lastSent[key] !== value) {
+      this.port.sendMidi (0xB0 + channel, cc, value);
+      this.lastSent[key] = value;
+    }
 };
 
 MidiOutput.prototype.sendNote = function (note, velocity)

@@ -36,14 +36,14 @@ TrackBankProxy.COLORS =
 function TrackBankProxy ()
 {
     this.trackBank = host.createMainTrackBank (8, 6, 8);
-    
+
     this.canScrollTracksUpFlag   = false;
     this.canScrollTracksDownFlag = false;
     this.canScrollScenesUpFlag   = false;
     this.canScrollScenesDownFlag = false;
 
     this.trackState = TrackBankProxy.TrackState.MUTE;
-    
+
     this.newClipLength = 2; // 1 Bar
     this.recCount = 64;
     this.listeners = [];
@@ -66,6 +66,13 @@ function TrackBankProxy ()
         {
             this.tracks[index].name = name;
         }));
+
+        // Track color
+        t.addColorObserver (doObjectIndex (this, i, function (index, red, green, blue)
+        {
+            this.tracks[index].color = rgb2hsv (red, green, blue);
+        }));
+
         // Track selection
         t.addIsSelectedObserver (doObjectIndex (this, i, function (index, isSelected)
         {
@@ -463,3 +470,54 @@ TrackBankProxy.TrackState =
     MUTE: 1,
     SOLO: 2
 };
+
+function rgb2hsv (r, g, b) {
+  var minValue = Math.min(r, g, b),
+      maxValue = Math.max(r, g, b),
+      delta = maxValue - minValue,
+      h = null,
+      s = null,
+      v = maxValue;
+
+  switch(maxValue) {
+    case r:
+      if (g >= b) {
+        if (delta === 0) {
+          h = 0;
+        } else {
+          h = 60 * (g - b) / delta;
+        }
+      } else if (g < b) {
+        h = 60 * (g - b) / delta + 360;
+      }
+      break;
+
+    case g:
+      h = 60 * (b - r) / delta + 120;
+      break;
+
+    case b:
+      h = 60 * (r - g) / delta + 240;
+      break;
+  }
+
+  if (maxValue === 0) {
+    s = 0;
+  } else {
+    s = 1 - (minValue / maxValue);
+  }
+
+  // y = y0 + (y1 - y0) * (x - x0) / (x1 - x0)
+  h = 127 * h  / 360
+  s = s * 127;
+  v = v * 127;
+
+  // println('rgb2hsv', r, g, b, '->', h, s, v);
+
+  return {
+    h: h,
+    s: s,
+    v: v
+  }
+
+}

@@ -16,7 +16,7 @@ function AbstractControlSurface (output, input, buttons)
     this.input.init ();
     this.input.setMidiCallback (doObject (this, this.handleMidi));
     this.noteInput = this.input.createNoteInput ();
-    
+
     this.selectButtonId = -1;
     this.shiftButtonId  = -1;
 
@@ -48,10 +48,11 @@ function AbstractControlSurface (output, input, buttons)
             this.buttonConsumed[this.buttons[i]] = false;
         }
     }
-    
+
     // Flush optimisation
     this.displayScheduled = false;
     this.taskReturning    = false;
+
 };
 
 AbstractControlSurface.prototype.getDisplay = function ()
@@ -268,6 +269,7 @@ AbstractControlSurface.prototype.isPressed = function (button)
 
 AbstractControlSurface.prototype.handleMidi = function (status, data1, data2)
 {
+    printMidi(status, data1, data2);
     var code = status & 0xF0;
     switch (code)
     {
@@ -282,7 +284,7 @@ AbstractControlSurface.prototype.handleMidi = function (status, data1, data2)
         case 0xB0:
             this.handleCC (data1, data2);
             break;
-            
+
         // Pitch Bend
         case 0xE0:
             var view = this.getActiveView ();
