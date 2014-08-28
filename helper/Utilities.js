@@ -11,7 +11,8 @@ function toggleValue (value)
 function changeValue (control, value, fractionValue, maxParameterValue)
 {
     var isInc = control <= 61;
-    var speed = Math.max ((isInc ? control : 127 - control) * fractionValue, fractionValue);
+    var speed = Math.max ((isInc ? control : Math.floor(control * 2 - 127)/2) * fractionValue, fractionValue);
+    log('changeValue', isInc, value, control, speed);
     return isInc ? Math.min (value + speed, maxParameterValue) : Math.max (value - speed, 0);
 }
 
@@ -85,7 +86,7 @@ function optimizeName (name, length)
 {
     if (!name)
         return '';
-    
+
     for (var i = 0; i < REMOVABLE_CHARS.length; i++)
     {
         if (name.length <= length)

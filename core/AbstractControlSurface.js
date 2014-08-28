@@ -351,7 +351,7 @@ AbstractControlSurface.prototype.checkButtonState = function (buttonID)
         return;
 
     this.buttonStates[buttonID] = ButtonEvent.LONG;
-    this.handleEvent (buttonID, 127);
+    // this.handleEvent (buttonID, 127);
 };
 
 AbstractControlSurface.prototype.isGridNote = function (note)

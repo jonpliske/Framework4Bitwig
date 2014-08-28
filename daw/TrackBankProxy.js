@@ -35,7 +35,7 @@ TrackBankProxy.COLORS =
 
 function TrackBankProxy ()
 {
-    this.trackBank = host.createMainTrackBank (8, 6, 8);
+    this.trackBank = host.createMainTrackBank (8, 6, 4);
 
     this.canScrollTracksUpFlag   = false;
     this.canScrollTracksDownFlag = false;
@@ -133,6 +133,7 @@ function TrackBankProxy ()
         var cs = t.getClipLauncherSlots ();
         cs.addIsSelectedObserver (doObjectIndex (this, i, function (index, slot, isSelected)
         {
+            // log('slot|isSelected', slot, isSelected);
             this.tracks[index].slots[slot].isSelected = isSelected;
         }));
         cs.addHasContentObserver (doObjectIndex (this, i, function (index, slot, hasContent)
@@ -141,10 +142,11 @@ function TrackBankProxy ()
         }));
         cs.addColorObserver (doObjectIndex (this, i, function (index, slot, red, green, blue)
         {
-            this.tracks[index].slots[slot].color = this.getColorIndex (red, green, blue);
+            this.tracks[index].slots[slot].color = rgb2hsv (red, green, blue);
         }));
         cs.addIsPlayingObserver (doObjectIndex (this, i, function (index, slot, isPlaying)
         {
+            // log('slot|isPlaying', slot, isPlaying);
             this.tracks[index].slots[slot].isPlaying = isPlaying;
         }));
         cs.addIsRecordingObserver (doObjectIndex (this, i, function (index, slot, isRecording)
@@ -154,6 +156,7 @@ function TrackBankProxy ()
         }));
         cs.addIsQueuedObserver (doObjectIndex (this, i, function (index, slot, isQueued)
         {
+            // log('slot|isQueued', slot, isQueued);
             this.tracks[index].slots[slot].isQueued = isQueued;
         }));
 
@@ -405,7 +408,7 @@ TrackBankProxy.prototype.scrollScenesPageDown = function ()
 
 TrackBankProxy.prototype.setIndication = function (enable)
 {
-    for (var index = 0; index < 8; index++)
+    for (var index = 0; index < 4; index++)
         this.trackBank.getTrack (index).getClipLauncherSlots ().setIndication (enable);
 };
 

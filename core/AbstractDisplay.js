@@ -14,14 +14,14 @@ function AbstractDisplay (output, noOfLines, noOfBlocks, noOfCells)
         return;
 
     this.output = output;
-    
+
     this.noOfLines  = noOfLines;
     this.noOfBlocks = noOfBlocks;
     this.noOfCells  = noOfCells;
 
-    this.currentMessage = initArray (null, this.noOfLines);
-    this.message = initArray (null, this.noOfLines);
-    this.cells = initArray (null, this.noOfLines * this.noOfCells);
+    this.currentMessage = []; //initArray (null, this.noOfLines);
+    this.message = [];// initArray (null, this.noOfLines);
+    this.cells = [];// initArray (null, this.noOfLines * this.noOfCells);
 }
 
 //////////////////////////////////////////////////
@@ -91,14 +91,21 @@ AbstractDisplay.prototype.allDone = function ()
 
 AbstractDisplay.prototype.flush = function (row)
 {
+    log('flush');
     for (var row = 0; row < this.noOfLines; row++)
     {
         // Has anything changed?
-        if (this.currentMessage[row] == this.message[row])
+        if (this.currentMessage[row] == this.message[row]) {
+            log('row', row, 'unchanged');
             continue;
+        }
+
         this.currentMessage[row] = this.message[row];
-        if (this.currentMessage[row] != null)
+
+        if (this.currentMessage[row] != null){
+            log('row', row, 'write:', this.currentMessage[row]);
             this.writeLine (row, this.currentMessage[row]);
+        }
     }
 };
 
